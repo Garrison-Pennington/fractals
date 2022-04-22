@@ -95,7 +95,9 @@ func Render(fractal ComplexFractal, outputResolution Resolution, bounds Bounds, 
 
 func RenderImage(fractal ComplexFractal, outputResolution Resolution, bounds Bounds, steps uint32) *image.RGBA {
 	render := Render(fractal, outputResolution, bounds, steps)
+	log.Debug().Msg("Creating Image Background")
 	img := Background(outputResolution, color.Black)
+	log.Debug().Msg("Drawing Fractal")
 	for r, row := range render {
 		for c, val := range row {
 			img.Set(c, r, fractal.Color(val, steps))
@@ -122,6 +124,7 @@ func SaveImage(filename string, img *image.RGBA) string {
 	f, err := os.Create(ImagePath(filename))
 	defer f.Close()
 	if err != nil {
+
 		log.Fatal().Msg("Error Creating File")
 	}
 	err = png.Encode(f, img)
