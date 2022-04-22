@@ -122,7 +122,7 @@ func SaveImage(filename string, img *image.RGBA) string {
 	f, err := os.Create(ImagePath(filename))
 	defer f.Close()
 	if err != nil {
-
+		log.Fatal().Msg("Error Creating File")
 	}
 	err = png.Encode(f, img)
 	return filename
