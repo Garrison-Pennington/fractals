@@ -70,19 +70,25 @@ func UHDRender(f ComplexFractal, b Bounds, n uint32) ComplexRender {
 }
 
 func Render(fractal ComplexFractal, outputResolution Resolution, bounds Bounds, steps uint32) (arr [][]ComplexFractalValue) {
+	log.Debug().Msg("Preparing to Render")
+	log.Trace().Msg("Creating 2D array")
 	arr = outputResolution.ComplexArray()
+	log.Trace().Msg("Creating Pixel Generator")
 	ch := outputResolution.GenPixels()
 	count := 0
 	lastPercent := 0
 	totalPixels := outputResolution.Height * outputResolution.Width
+	log.Info().Msgf("Beginning Render with %v pixels", totalPixels)
 	for pixel := range ch {
 		count++
-		if percentComplete := (float64(count) / float64(totalPixels)) / .01; int(percentComplete) > lastPercent {
+		if percentComplete := (float64(count) / float64(totalPixels)) / .25; int(percentComplete) > lastPercent {
 			lastPercent = int(percentComplete)
+			log.Info().Msgf("%v%% Complete", lastPercent*25)
 		}
 		pt := TransformPoint(outputResolution, bounds, pixel)
 		arr[pixel.PY()][pixel.PX()] = NSteps(fractal, AsComplex(pt), steps)
 	}
+	log.Info().Msg("Render Complete")
 	return
 }
 
