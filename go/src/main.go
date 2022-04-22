@@ -3,6 +3,8 @@ package main
 import (
 	cmp "fractals/forms/complex"
 	mand "fractals/forms/complex/examples"
+
+	"github.com/rs/zerolog"
 )
 
 var MANDELBROT mand.Mandelbrot = mand.Mandelbrot{}
@@ -40,6 +42,7 @@ var STEP_PROP_DEFAULT func(cmp.ComplexFractalValue) float64 = cmp.StepScorer(DEF
 var REACHED_STEPS_DEFAULT func(cmp.ComplexFractalValue) bool = cmp.BinStepScorer(DEFAULT_STEPS)
 
 func main() {
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	UHD_MANDELBROT_FULL.MultiPhaseRender(5, WINDOW_10X10, 5).Save()
 
 }
