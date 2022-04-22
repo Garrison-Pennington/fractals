@@ -134,7 +134,7 @@ func SaveImage(filename string, img *image.RGBA) string {
 func ImagePath(filename string) string {
 	usr, err := user.Current()
 	if err != nil {
-
+		log.Info().Msg("Error getting current User")
 	}
 	return path.Join(usr.HomeDir, "src", "fractals", "images", filename)
 }
