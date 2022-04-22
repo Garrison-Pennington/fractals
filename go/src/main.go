@@ -2,12 +2,17 @@ package main
 
 import (
 	cmp "fractals/forms/complex"
+<<<<<<< HEAD
 	mand "fractals/forms/complex/examples"
 
 	"github.com/rs/zerolog"
+=======
+	ex "fractals/forms/complex/examples"
+>>>>>>> Add DivMod constants to main.go
 )
 
-var MANDELBROT mand.Mandelbrot = mand.Mandelbrot{}
+var MANDELBROT ex.Mandelbrot = ex.Mandelbrot{}
+var DIVMOD_3_3 ex.DivMod = ex.DivMod{3.3}
 
 var UHD cmp.Resolution = cmp.Resolution{
 	Width: 1920, Height: 1080,
@@ -29,6 +34,13 @@ var UHD_MANDELBROT_FULL = cmp.ComplexRender{
 	Resolution: UHD,
 	Bounds:     MANDELBROT_WHOLE_BOUNDS,
 	Fractal:    MANDELBROT,
+	Steps:      DEFAULT_STEPS,
+}
+
+var UHD_DIVMOD_3_3_FULL = cmp.ComplexRender{
+	Resolution: UHD,
+	Bounds:     MANDELBROT_WHOLE_BOUNDS,
+	Fractal:    DIVMOD_3_3,
 	Steps:      DEFAULT_STEPS,
 }
 
