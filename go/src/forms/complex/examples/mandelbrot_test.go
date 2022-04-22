@@ -1,12 +1,11 @@
-package mandelbrot
+package examples
 
 import (
 	c "fractals/forms/complex"
-	m "fractals/forms/complex/examples"
 	"testing"
 )
 
-var MANDELBROT m.Mandelbrot = m.Mandelbrot{}
+var MANDELBROT Mandelbrot = Mandelbrot{}
 
 var NULL c.ComplexFractalValue = c.ComplexFractalValue{
 	Initial:  complex(0, 0),

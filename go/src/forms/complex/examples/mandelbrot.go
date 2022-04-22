@@ -1,4 +1,4 @@
-package mandelbrot
+package examples
 
 import (
 	cmp "fractals/forms/complex"
