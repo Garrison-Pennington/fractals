@@ -44,9 +44,11 @@ func (r ComplexRender) Zoom(pt ComplexPoint, scale float64) ComplexRender {
 func (r ComplexRender) MultiPhaseRender(numPhases uint8, w Window, stride int) ComplexRender {
 	last := r
 	nextBounds := r.Bounds
+	log.Info().Msg("Beginning Multi-Phase Render")
 	for numPhases > 0 {
 		numPhases--
 		w = w.IntoArray(last.Render())
+		log.Debug().Msg("Finding next render window")
 		maxEdges := 0
 		for view := range w.Slide(stride) {
 			edges := view.EdgeCount(r.Steps)
