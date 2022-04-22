@@ -3,8 +3,10 @@ package main
 import (
 	cmp "fractals/forms/complex"
 	ex "fractals/forms/complex/examples"
+	"os"
 
 	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 var MANDELBROT ex.Mandelbrot = ex.Mandelbrot{}
@@ -51,6 +53,7 @@ var REACHED_STEPS_DEFAULT func(cmp.ComplexFractalValue) bool = cmp.BinStepScorer
 
 func main() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	UHD_DIVMOD_3_3_FULL.Save()
 
 }
