@@ -2,13 +2,9 @@ package main
 
 import (
 	cmp "fractals/forms/complex"
-<<<<<<< HEAD
-	mand "fractals/forms/complex/examples"
+	ex "fractals/forms/complex/examples"
 
 	"github.com/rs/zerolog"
-=======
-	ex "fractals/forms/complex/examples"
->>>>>>> Add DivMod constants to main.go
 )
 
 var MANDELBROT ex.Mandelbrot = ex.Mandelbrot{}
