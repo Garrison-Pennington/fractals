@@ -8,7 +8,7 @@ import (
 )
 
 var MANDELBROT ex.Mandelbrot = ex.Mandelbrot{}
-var DIVMOD_3_3 ex.DivMod = ex.DivMod{3.3}
+var DIVMOD_3_3 ex.DivMod = ex.DivMod{Divisor: 3.3}
 
 var UHD cmp.Resolution = cmp.Resolution{
 	Width: 1920, Height: 1080,
@@ -51,6 +51,6 @@ var REACHED_STEPS_DEFAULT func(cmp.ComplexFractalValue) bool = cmp.BinStepScorer
 
 func main() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	UHD_MANDELBROT_FULL.MultiPhaseRender(5, WINDOW_10X10, 5).Save()
+	UHD_DIVMOD_3_3_FULL.Save()
 
 }
