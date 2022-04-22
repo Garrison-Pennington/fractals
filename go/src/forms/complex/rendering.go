@@ -61,6 +61,7 @@ func (r ComplexRender) MultiPhaseRender(numPhases uint8, w Window, stride int) C
 }
 
 func UHDRender(f ComplexFractal, b Bounds, n uint32) ComplexRender {
+	log.Debug().Msgf("Creating UHD Render")
 	return ComplexRender{
 		Resolution: UHD,
 		Bounds:     b,
