@@ -25,6 +25,11 @@ var MANDELBROT_REDUCED_BOUNDS cmp.Bounds = cmp.Bounds{
 	Upper: cmp.MakeComplexPoint(complex(1.5, 1.5)),
 }
 
+var BOUNDS_5_5 cmp.Bounds = cmp.Bounds{
+	Lower: cmp.MakeComplexPoint(complex(-5, -5)),
+	Upper: cmp.MakeComplexPoint(complex(5, 5)),
+}
+
 var DEFAULT_STEPS uint32 = 100
 var DEEP_STEPS uint32 = 1000
 
@@ -48,12 +53,18 @@ var WINDOW_10X10 cmp.Window = cmp.Window{
 	Array:  nil,
 }
 
+var WINDOW_100X100 cmp.Window = cmp.Window{
+	Height: 100,
+	Width:  100,
+	Array:  nil,
+}
+
 var STEP_PROP_DEFAULT func(cmp.ComplexFractalValue) float64 = cmp.StepScorer(DEFAULT_STEPS)
 var REACHED_STEPS_DEFAULT func(cmp.ComplexFractalValue) bool = cmp.BinStepScorer(DEFAULT_STEPS)
 
 func main() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-	UHD_DIVMOD_3_3_FULL.Save()
+	cmp.UHDRender(DIVMOD_3_3, BOUNDS_5_5, DEFAULT_STEPS).Save()
 
 }
