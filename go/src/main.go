@@ -46,6 +46,7 @@ var REACHED_STEPS_DEFAULT func(cmp.ComplexFractalValue) bool = cmp.BinStepScorer
 
 func main() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	resPtr := flag.String("resolution", "UHD", "Render output resolution")
 	fractalPtr := flag.String("fractal", "mandelbrot", "The fractal to render")
 	stepsPtr := flag.Uint("steps", 100, "Number of iterations to run on each point")
