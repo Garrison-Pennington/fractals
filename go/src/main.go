@@ -9,6 +9,7 @@ import (
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"gitlab.com/gomidi/midi/v2"
 )
 
 var MANDELBROT mand.Mandelbrot = mand.Mandelbrot{}
@@ -46,7 +47,7 @@ var STEP_PROP_DEFAULT func(cmp.ComplexFractalValue) float64 = cmp.StepScorer(DEF
 var REACHED_STEPS_DEFAULT func(cmp.ComplexFractalValue) bool = cmp.BinStepScorer(DEFAULT_STEPS)
 
 func main() {
-	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	actionPtr := flag.String("action", "render", "render or music")
 	resPtr := flag.String("resolution", "UHD", "Render output resolution")
@@ -56,6 +57,7 @@ func main() {
 	windowPtr := flag.Int("window-size", 10, "Side length of the MultiPhaseWindow")
 	stridePtr := flag.Int("stride", 5, "Stride of the MultiPhaseWindow")
 	flag.Parse()
+	log.Info().Msgf("%v", *actionPtr)
 	switch *actionPtr {
 	case "render":
 		render := cmp.ComplexRender{
@@ -77,11 +79,14 @@ func main() {
 		break
 	case "music":
 		song := music.BasicSong()
-		notes := music.BridgeSeries(4, []uint8{3, 6, 4, 1, 9})
-		log.Info().Msgf("%v", notes)
-		tr := song.PlayQuarters(notes)
-		song.AddTrack(tr)
-		song.Save("/tmp/quarters.mid")
+		init := []uint8{midi.C(-4), midi.Ab(-4), midi.Eb(-4), midi.Gb(-4)}
+		bass := music.TransposeOctave(music.BridgeSeries(2, init), 3)
+		melody := music.TransposeOctave(music.BridgeSeries(4, init), 4)
+		log.Debug().Msgf("Bass: %v", bass)
+		log.Debug().Msgf("Melody: %v", melody)
+		song.PlayWholes(bass, music.CELLO)
+		song.PlayQuarters(melody, music.PIANO)
+		song.Save("/home/garrison/layered.mid")
 	}
 
 	//UHD_MANDELBROT_FULL.MultiPhaseRender(5, WINDOW_10X10, 5).Save()

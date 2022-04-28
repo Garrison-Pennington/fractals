@@ -8,6 +8,13 @@ var CHROMATIC_SCALE [12]string = [12]string{"C", "C#", "D", "D#", "E", "F", "F#"
 var MAJOR_SCALE_INTERVALS []uint8 = []uint8{2, 2, 1, 2, 2, 2, 1}
 var MINOR_SCALE_INTERVALS []uint8 = []uint8{2, 1, 2, 2, 1, 2, 2}
 
+func TransposeOctave(notes []uint8, octaves int8) []uint8 {
+	for i := range notes {
+		notes[i] = uint8(int8(notes[i]) + 12*octaves)
+	}
+	return notes
+}
+
 type Scale struct {
 	Notes [8]string
 	Base  uint8 // Numeric component of 'C4', 'C5', etc.
