@@ -4,6 +4,7 @@ import (
 	"flag"
 	cmp "fractals/forms/complex"
 	mand "fractals/forms/complex/examples"
+	music "fractals/forms/music"
 	"os"
 
 	"github.com/rs/zerolog"
@@ -75,7 +76,12 @@ func main() {
 		}
 		break
 	case "music":
-		break
+		song := music.BasicSong()
+		notes := music.BridgeSeries(4, []uint8{3, 6, 4, 1, 9})
+		log.Info().Msgf("%v", notes)
+		tr := song.PlayQuarters(notes)
+		song.AddTrack(tr)
+		song.Save("/tmp/quarters.mid")
 	}
 
 	//UHD_MANDELBROT_FULL.MultiPhaseRender(5, WINDOW_10X10, 5).Save()
