@@ -53,6 +53,7 @@ func main() {
 	phasesPtr := flag.Uint("phases", 0, "Number of zoom phases to perform in MultiPhaseRender, 0 is regular render")
 	windowPtr := flag.Int("window-size", 10, "Side length of the MultiPhaseWindow")
 	stridePtr := flag.Int("stride", 5, "Stride of the MultiPhaseWindow")
+	flag.Parse()
 	args := os.Args[1:]
 	switch action := args[0]; action {
 	case "render":
