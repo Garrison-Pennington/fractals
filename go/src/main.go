@@ -4,6 +4,7 @@ import (
 	"flag"
 	cmp "fractals/forms/complex"
 	mand "fractals/forms/complex/examples"
+	music "fractals/forms/music"
 	"os"
 
 	"github.com/rs/zerolog"
@@ -47,6 +48,7 @@ var REACHED_STEPS_DEFAULT func(cmp.ComplexFractalValue) bool = cmp.BinStepScorer
 func main() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	actionPtr := flag.String("action", "render", "render or music")
 	resPtr := flag.String("resolution", "UHD", "Render output resolution")
 	fractalPtr := flag.String("fractal", "mandelbrot", "The fractal to render")
 	stepsPtr := flag.Uint("steps", 100, "Number of iterations to run on each point")
@@ -54,8 +56,7 @@ func main() {
 	windowPtr := flag.Int("window-size", 10, "Side length of the MultiPhaseWindow")
 	stridePtr := flag.Int("stride", 5, "Stride of the MultiPhaseWindow")
 	flag.Parse()
-	args := os.Args[1:]
-	switch action := args[0]; action {
+	switch *actionPtr {
 	case "render":
 		render := cmp.ComplexRender{
 			Resolution: parseResolution(*resPtr),
@@ -75,7 +76,12 @@ func main() {
 		}
 		break
 	case "music":
-		break
+		song := music.BasicSong()
+		notes := music.BridgeSeries(4, []uint8{3, 6, 4, 1, 9})
+		log.Info().Msgf("%v", notes)
+		tr := song.PlayQuarters(notes)
+		song.AddTrack(tr)
+		song.Save("/tmp/quarters.mid")
 	}
 
 	//UHD_MANDELBROT_FULL.MultiPhaseRender(5, WINDOW_10X10, 5).Save()

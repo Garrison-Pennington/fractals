@@ -33,7 +33,7 @@ func (s Scale) translate(nums []uint8) (notes []string) {
 	return
 }
 
-func (s Scale) BridgeSeries(expansions uint8, initiator []uint8) (series []string) {
+func BridgeSeries(expansions uint8, initiator []uint8) (series []uint8) {
 	// Initialize slice with proper size
 	numVals := int(math.Pow(float64(len(initiator)), float64(expansions)))
 	numInit := len(initiator)
@@ -50,8 +50,7 @@ func (s Scale) BridgeSeries(expansions uint8, initiator []uint8) (series []strin
 			}
 		}
 	}
-	series = s.translate(nums)
-	return
+	return nums
 }
 
 type TimeSignature struct {
