@@ -19,7 +19,7 @@ jobs:
         go-version: 1.18
 
     - name: Build
-      run: go build ./go/src/
+      run: cd go/src/ && go build .
 
     - name: Test
-      run: go test -v ./go/src/
+      run: cd go/src/ && go test .
