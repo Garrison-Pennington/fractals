@@ -60,11 +60,6 @@ func BridgeSeries(expansions uint8, initiator []uint8) (series []uint8) {
 	return nums
 }
 
-type TimeSignature struct {
-	Beats uint8
-	Value uint8
-}
-
 // func main() {
 // 	Fsm := GetScale(6, MINOR_SCALE_INTERVALS)
 // 	notes := Fsm.BridgeSeries(2, []uint8{1, 7, 3, 8})
