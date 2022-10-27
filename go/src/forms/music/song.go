@@ -61,6 +61,11 @@ func (s *Song) PlayWholes(notes []uint8, instrument Instrument) {
 	}
 }
 
+func (s *Song) PlayWithLengths(notes []uint8, lengths []uint16, instrument Instrument) {
+	tr := s.newTrack(instrument)
+	PlayNotesWithLengths(notes, lengths, tr, s.Clock, s.CurrentChannel(), 100)
+}
+
 func (s Song) Save(filename string) {
 	for _, tr := range s.Tracks {
 		tr.Close(0)

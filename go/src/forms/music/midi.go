@@ -1,10 +1,17 @@
 package music
 
 import (
-	"github.com/rs/zerolog/log"
 	midi "gitlab.com/gomidi/midi/v2"
 	smf "gitlab.com/gomidi/midi/v2/smf"
+	"golang.org/x/exp/constraints"
 )
+
+func max[T constraints.Ordered](a, b T) T {
+    if a > b {
+        return a
+    }
+    return b
+}
 
 func PlayNoteMsgs(channel uint8, note uint8, velocity uint8) (midi.Message, midi.Message) {
 	return midi.NoteOn(channel, note, velocity), midi.NoteOff(channel, note)
@@ -36,40 +43,10 @@ func PlayWhole(tr *smf.Track, clock smf.MetricTicks, channel uint8, note uint8, 
 	PlayNote(tr, clock.Ticks4th()*4, channel, note, velocity)
 }
 
-type TimeSignature struct {
-	Beats uint8
-	Value uint8
-}
-
-func (ts TimeSignature) MeasureCombos(denom uint16) [][]uint16 {
-	total := uint16(ts.Beats) * (denom / uint16(ts.Value))
-	cache := make(map[uint16][][]uint16)
-	log.Debug().Msgf("Filling %v:%v meter with %vth notes", ts.Beats, ts.Value, denom)
-	return ts.FillMeasure(total, denom, cache)
-}
-
-func (ts TimeSignature) FillMeasure(needed uint16, denom uint16, cache map[uint16][][]uint16) (combos [][]uint16) {
-	log.Debug().Msgf("Filling %v %vth notes", needed, denom)
-	if val, ok := cache[needed]; ok {
-		log.Debug().Msg("Using cached result")
-		return val
+func PlayNotesWithLengths(notes []uint8, lengths []uint16, tr *smf.Track, clock smf.MetricTicks, channel uint8, velocity uint8){
+	ln, ll := len(notes), len(lengths)
+	for i := 0; i < max(ln, ll); i++ {
+		il, in := i % ll, i % ln
+		NOTE_VALUES[lengths[il]](tr, clock, channel, notes[in], velocity)
 	}
-	log.Debug().Msg("Calculating combos")
-	leaves := make([]uint16, 0)
-	complete := make([][]uint16, 0)
-	for currDenom := denom; currDenom >= 1; currDenom /= 2 {
-		if needed == currDenom {
-			complete = append(complete, []uint16{currDenom})
-		} else if needed > currDenom {
-			leaves = append(leaves, currDenom)
-		}
-	}
-	for _, leaf := range leaves {
-		for _, combo := range ts.FillMeasure(needed-leaf, denom, cache) {
-			combo = append([]uint16{leaf}, combo...)
-			complete = append(complete, combo)
-		}
-	}
-	cache[needed] = complete
-	return complete
 }

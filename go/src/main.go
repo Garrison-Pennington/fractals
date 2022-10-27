@@ -79,14 +79,19 @@ func main() {
 		break
 	case "music":
 		song := music.BasicSong()
+		measures := song.Meter.MeasureCombos(16)
+		bassMeasures := music.RandomMeasures(8, measures)
+		bassLengths := music.ConcatMeasures(bassMeasures)
+		melodyMeasures := music.RandomMeasures(8, measures)
+		melodyLengths := music.ConcatMeasures(melodyMeasures)
 		init := []uint8{midi.C(-4), midi.Ab(-4), midi.Eb(-4), midi.Gb(-4)}
 		bass := music.TransposeOctave(music.BridgeSeries(2, init), 3)
 		melody := music.TransposeOctave(music.BridgeSeries(4, init), 4)
 		log.Debug().Msgf("Bass: %v", bass)
 		log.Debug().Msgf("Melody: %v", melody)
-		song.PlayWholes(bass, music.CELLO)
-		song.PlayQuarters(melody, music.PIANO)
-		song.Save("/home/garrison/layered.mid")
+		song.PlayWithLengths(bass, bassLengths, music.CELLO)
+		song.PlayWithLengths(melody, melodyLengths, music.PIANO)
+		song.Save("/home/garrison/layered_with_lengths.mid")
 	}
 
 	//UHD_MANDELBROT_FULL.MultiPhaseRender(5, WINDOW_10X10, 5).Save()

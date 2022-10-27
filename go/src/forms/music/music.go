@@ -2,6 +2,9 @@ package music
 
 import (
 	"math"
+	"math/rand"
+
+	"github.com/rs/zerolog/log"
 )
 
 var CHROMATIC_SCALE [12]string = [12]string{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}
@@ -58,6 +61,62 @@ func BridgeSeries(expansions uint8, initiator []uint8) (series []uint8) {
 		}
 	}
 	return nums
+}
+
+type TimeSignature struct {
+	Beats uint8
+	Value uint8
+}
+
+func (ts TimeSignature) MeasureCombos(denom uint16) [][]uint16 {
+	total := uint16(ts.Beats) * (denom / uint16(ts.Value))
+	cache := make(map[uint16][][]uint16)
+	log.Debug().Msgf("Filling %v:%v meter with %vth notes", ts.Beats, ts.Value, denom)
+	return ts.FillMeasure(total, denom, cache)
+}
+
+func (ts TimeSignature) FillMeasure(needed uint16, denom uint16, cache map[uint16][][]uint16) (combos [][]uint16) {
+	log.Debug().Msgf("Filling %v %vth notes", needed, denom)
+	if val, ok := cache[needed]; ok {
+		log.Debug().Msg("Using cached result")
+		return val
+	}
+	log.Debug().Msg("Calculating combos")
+	leaves := make([]uint16, 0)
+	complete := make([][]uint16, 0)
+	for currDenom := denom; currDenom >= 1; currDenom /= 2 {
+		if needed == currDenom {
+			complete = append(complete, []uint16{currDenom})
+		} else if needed > currDenom {
+			leaves = append(leaves, currDenom)
+		}
+	}
+	for _, leaf := range leaves {
+		for _, combo := range ts.FillMeasure(needed-leaf, denom, cache) {
+			combo = append([]uint16{leaf}, combo...)
+			complete = append(complete, combo)
+		}
+	}
+	cache[needed] = complete
+	return complete
+}
+
+func RandomMeasures(n uint8, measures [][]uint16) (ret [][]uint16) {
+	right := len(measures)
+	ret = make([][]uint16, 0)
+	for n > 0 {
+		ret = append(ret, measures[rand.Intn(right)])
+		n--
+	}
+	return
+}
+
+func ConcatMeasures(measures [][]uint16) (ret []uint16) {
+	ret = make([]uint16, 0)
+	for _, m := range measures {
+		ret = append(ret, m...)
+	}
+	return
 }
 
 // func main() {
