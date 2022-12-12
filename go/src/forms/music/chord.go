@@ -1,58 +1,58 @@
 package music
 
 type Chord struct {
-	Root    Tone
+	Root    PitchClass
 	Notes   []Note
 	Quality string
 }
 
 // CONSTRUCTORS:
 func MinorTriad(root Note) Chord {
-	return Chord{root.Tone, []Note{root, MINOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root)}, "m"}
+	return Chord{root.PitchClass, []Note{root, MINOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root)}, "m"}
 }
 
 func MajorTriad(root Note) Chord {
-	return Chord{root.Tone, []Note{root, MAJOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root)}, ""}
+	return Chord{root.PitchClass, []Note{root, MAJOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root)}, ""}
 }
 
 func AugmentedTriad(root Note) Chord {
-	return Chord{root.Tone, []Note{root, MAJOR_3RD.NextNote(root), AUGMENTED_5TH.NextNote(root)}, "+"}
+	return Chord{root.PitchClass, []Note{root, MAJOR_3RD.NextNote(root), AUGMENTED_5TH.NextNote(root)}, "+"}
 }
 
 func DiminishedTriad(root Note) Chord {
-	return Chord{root.Tone, []Note{root, MINOR_3RD.NextNote(root), DIMINISHED_5TH.NextNote(root)}, "o"}
+	return Chord{root.PitchClass, []Note{root, MINOR_3RD.NextNote(root), DIMINISHED_5TH.NextNote(root)}, "o"}
 }
 
 func DiminishedSeventh(root Note) Chord {
-	return Chord{root.Tone, []Note{root, MINOR_3RD.NextNote(root), DIMINISHED_5TH.NextNote(root), DIMINISHED_7TH.NextNote(root)}, "o7"}
+	return Chord{root.PitchClass, []Note{root, MINOR_3RD.NextNote(root), DIMINISHED_5TH.NextNote(root), DIMINISHED_7TH.NextNote(root)}, "o7"}
 }
 
 func HalfDiminishedSeventh(root Note) Chord {
-	return Chord{root.Tone, []Note{root, MINOR_3RD.NextNote(root), DIMINISHED_5TH.NextNote(root), MINOR_7TH.NextNote(root)}, root.Tone.Value}
+	return Chord{root.PitchClass, []Note{root, MINOR_3RD.NextNote(root), DIMINISHED_5TH.NextNote(root), MINOR_7TH.NextNote(root)}, root.PitchClass.Value}
 }
 
 func MinorSeventh(root Note) Chord {
-	return Chord{root.Tone, []Note{root, MINOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root), MINOR_7TH.NextNote(root)}, "m7"}
+	return Chord{root.PitchClass, []Note{root, MINOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root), MINOR_7TH.NextNote(root)}, "m7"}
 }
 
 func MinorMajorSeventh(root Note, inversions uint8) Chord {
-	return Chord{root.Tone, []Note{root, MINOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root), MAJOR_7TH.NextNote(root)}, root.Tone.Value}
+	return Chord{root.PitchClass, []Note{root, MINOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root), MAJOR_7TH.NextNote(root)}, root.PitchClass.Value}
 }
 
 func DominantSeventh(root Note) Chord {
-	return Chord{root.Tone, []Note{root, MAJOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root), MINOR_7TH.NextNote(root)}, root.Tone.Value + "7"}
+	return Chord{root.PitchClass, []Note{root, MAJOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root), MINOR_7TH.NextNote(root)}, root.PitchClass.Value + "7"}
 }
 
 func MajorSeventh(root Note) Chord {
-	return Chord{root.Tone, []Note{root, MAJOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root), MAJOR_7TH.NextNote(root)}, root.Tone.Value}
+	return Chord{root.PitchClass, []Note{root, MAJOR_3RD.NextNote(root), PERFECT_5TH.NextNote(root), MAJOR_7TH.NextNote(root)}, root.PitchClass.Value}
 }
 
 func AugmentedSeventh(root Note) Chord {
-	return Chord{root.Tone, []Note{root, MAJOR_3RD.NextNote(root), AUGMENTED_5TH.NextNote(root), MINOR_7TH.NextNote(root)}, root.Tone.Value}
+	return Chord{root.PitchClass, []Note{root, MAJOR_3RD.NextNote(root), AUGMENTED_5TH.NextNote(root), MINOR_7TH.NextNote(root)}, root.PitchClass.Value}
 }
 
 func AugmentedMajorSeventh(root Note) Chord {
-	return Chord{root.Tone, []Note{root, MAJOR_3RD.NextNote(root), AUGMENTED_5TH.NextNote(root), MAJOR_7TH.NextNote(root)}, root.Tone.Value}
+	return Chord{root.PitchClass, []Note{root, MAJOR_3RD.NextNote(root), AUGMENTED_5TH.NextNote(root), MAJOR_7TH.NextNote(root)}, root.PitchClass.Value}
 }
 
 // METHODS:
