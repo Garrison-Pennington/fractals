@@ -2,56 +2,56 @@ package music
 
 import "strconv"
 
-type Note struct {
+type Tone struct {
 	PitchClass PitchClass
 	Octave     uint8
 }
 
 // CONSTRUCTORS:
-func FromMidiCode(code uint8) Note {
+func FromMidiCode(code uint8) Tone {
 	tone := MIDI_MODS[(code-A.MidiBase)%12]
 	octave := (code - C.MidiBase) / 12
-	return Note{tone, octave}
+	return Tone{tone, octave}
 }
 
 // METHODS:
-func (n Note) PitchedUp(halfSteps uint8) Note {
+func (n Tone) PitchedUp(halfSteps uint8) Tone {
 	return FromMidiCode(n.MidiCode() + halfSteps)
 }
 
-func (n Note) PitchedDown(halfSteps uint8) Note {
+func (n Tone) PitchedDown(halfSteps uint8) Tone {
 	return FromMidiCode(n.MidiCode() - halfSteps)
 }
 
-func (n Note) OctaveUp(octaves uint8) Note {
-	return Note{n.PitchClass, n.Octave + octaves}
+func (n Tone) OctaveUp(octaves uint8) Tone {
+	return Tone{n.PitchClass, n.Octave + octaves}
 }
 
-func (n Note) OctaveDown(octaves uint8) Note {
-	return Note{n.PitchClass, n.Octave - octaves}
+func (n Tone) OctaveDown(octaves uint8) Tone {
+	return Tone{n.PitchClass, n.Octave - octaves}
 }
 
-func (n Note) Distance(next Note) uint8 {
+func (n Tone) Distance(next Tone) uint8 {
 	return n.MidiCode() - next.MidiCode()
 }
 
-func (n Note) MidiCode() uint8 {
+func (n Tone) MidiCode() uint8 {
 	return n.PitchClass.MidiBase + 12*n.Octave
 }
 
-func (n Note) AsString() string {
+func (n Tone) AsString() string {
 	return n.PitchClass.Value + strconv.FormatInt(int64(n.Octave), 10)
 }
 
-func (n Note) Major() Chord {
+func (n Tone) Major() Chord {
 	return MajorTriad(n)
 }
 
-func (n Note) Minor() Chord {
+func (n Tone) Minor() Chord {
 	return MinorTriad(n)
 }
 
-func ListNotes(notes []Note) (str string) {
+func ListTones(notes []Tone) (str string) {
 	for _, val := range notes {
 		str += val.AsString() + " "
 	}
@@ -66,8 +66,8 @@ type PitchClass struct {
 // CONSTRUCTORS:
 
 // METHODS:
-func (t PitchClass) Note(octave uint8) Note {
-	return Note{t, octave}
+func (t PitchClass) Tone(octave uint8) Tone {
+	return Tone{t, octave}
 }
 
 // CONSTANTS:

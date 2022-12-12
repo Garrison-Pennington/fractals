@@ -4,7 +4,7 @@ type Interval struct {
 	HalfSteps uint8
 }
 
-func (i Interval) NextNote(note Note) (next Note) {
+func (i Interval) NextTone(note Tone) (next Tone) {
 	return note.PitchedUp(i.HalfSteps)
 }
 
