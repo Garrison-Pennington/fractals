@@ -9,6 +9,15 @@ func PlayNote(channel uint8, note uint8, velocity uint8) (midi.Message, midi.Mes
 	return midi.NoteOn(channel, note, velocity), midi.NoteOff(channel, note)
 }
 
+func PlayNotes(channel uint8, notes []uint8, velocity uint8) (ons []midi.Message, offs []midi.Message) {
+	for _, note := range notes {
+		on, off := PlayNote(channel, note, velocity)
+		ons = append(ons, on)
+		offs = append(offs, off)
+	}
+	return
+}
+
 func Play16th(tr smf.Track, clock smf.MetricTicks, channel uint8, note uint8, velocity uint8) smf.Track {
 	on, off := PlayNote(channel, note, velocity)
 	tr.Add(0, on)
