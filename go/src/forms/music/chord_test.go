@@ -92,6 +92,28 @@ func TestInvert(t *testing.T) {
 	}
 }
 
+var ArpeggiateTestCases []struct {
+	Chord
+	pattern []uint8
+	count   uint8
+	tones   []Tone
+} = []struct {
+	Chord
+	pattern []uint8
+	count   uint8
+	tones   []Tone
+}{
+	{C_MAJOR, []uint8{1, 2, 3, 1}, 4, []Tone{C.Tone(4), E.Tone(4), G.Tone(4), C.Tone(4)}},
+}
+
+func TestArpeggiate(t *testing.T) {
+	for _, tc := range ArpeggiateTestCases {
+		if val := tc.Chord.Arpeggiate(tc.pattern, tc.count); !SameTones(val, tc.tones) {
+			t.Errorf("Wrong tones for %s.Arpeggiate(%v, %v), expected: %v got %v", tc.Chord.Name(), tc.pattern, tc.count, ListTones(tc.tones), ListTones(val))
+		}
+	}
+}
+
 func SameTones(s1 []Tone, s2 []Tone) bool {
 	if len(s1) != len(s2) {
 		return false

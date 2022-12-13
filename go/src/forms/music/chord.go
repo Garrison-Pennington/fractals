@@ -63,3 +63,32 @@ func (c *Chord) Invert() {
 func (c Chord) Name() string {
 	return c.Root.Value + c.Quality
 }
+
+func (c Chord) arpeggioGenerator(pattern []uint8) (ch chan Tone) {
+	ch = make(chan Tone)
+	go func() {
+		for i := 0; true; i++ {
+			if i == len(pattern) {
+				i = 0
+			}
+			tone := c.Tones[pattern[i]-1]
+			ch <- tone
+		}
+	}()
+	return
+}
+
+func (c Chord) Arpeggiate(pattern []uint8, count uint8) (result []Tone) {
+	result = make([]Tone, count)
+	channel := c.arpeggioGenerator(pattern)
+	var n uint8 = 0
+	for tone := range channel {
+		result[n] = tone
+		n++
+		if n == count {
+			close(channel)
+			break
+		}
+	}
+	return
+}
