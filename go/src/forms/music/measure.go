@@ -4,8 +4,9 @@ type Measure struct {
 	Signature TimeSignature
 	Notes     []struct {
 		Note
-		uint8
+		uint32
 	}
+	Resolution uint32
 }
 
 type Note struct {
@@ -13,16 +14,16 @@ type Note struct {
 	Value uint8
 }
 
-func NewMeasure(sig TimeSignature) Measure {
+func NewMeasure(sig TimeSignature, resolution uint32) Measure {
 	return Measure{sig, make([]struct {
 		Note
-		uint8
-	}, 0)}
+		uint32
+	}, 0), resolution}
 }
 
-func (m *Measure) AddNote(note Note, at uint8) {
+func (m *Measure) AddNote(note Note, at uint32) {
 	m.Notes = append(m.Notes, struct {
 		Note
-		uint8
+		uint32
 	}{note, at})
 }
