@@ -52,7 +52,7 @@ func (s Song) Save(filename string) {
 func BasicSong() Song {
 	return Song{
 		Tempo: 140,
-		Meter: TimeSignature{4, 4, smf.MetricTicks(960)},
+		// Meter: TimeSignature{4, 4, smf.MetricTicks(960)},
 		Clock: smf.MetricTicks(960),
 		SMF:   smf.New(),
 	}
