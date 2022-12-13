@@ -1,13 +1,10 @@
 package music
 
+import "strconv"
+
 type Measure struct {
 	Signature TimeSignature
 	Notes     map[uint8][]Note
-}
-
-type Note struct {
-	Tone  Tone
-	Value uint8
 }
 
 func NewMeasure(sig TimeSignature) Measure {
@@ -18,7 +15,7 @@ func (m *Measure) AddNotes(at uint8, notes ...Note) {
 	m.Notes[at] = append(m.Notes[at], notes...)
 }
 
-func (m *Measure) AddNoteSequence(notes []Note, at uint8) {
+func (m *Measure) AddNoteSequence(at uint8, notes ...Note) {
 	for _, note := range notes {
 		m.AddNotes(at, note)
 		at += noteDuration(note)
@@ -36,6 +33,17 @@ func (m Measure) onBeats() (count uint8) {
 			count++
 		}
 		i++
+	}
+	return
+}
+
+func (m Measure) AsString() (res string) {
+	for start, notes := range m.Notes {
+		res += strconv.FormatInt(int64(start), 10) + ". "
+		for _, note := range notes {
+			res += note.AsString() + " "
+		}
+		res += "\n"
 	}
 	return
 }

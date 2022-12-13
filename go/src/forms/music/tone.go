@@ -2,6 +2,15 @@ package music
 
 import "strconv"
 
+type Note struct {
+	Tone  Tone
+	Value uint8
+}
+
+func (n Note) AsString() string {
+	return n.Tone.AsString() + NoteValueStrings[n.Value]
+}
+
 type Tone struct {
 	PitchClass PitchClass
 	Octave     uint8
@@ -51,7 +60,44 @@ func (n Tone) Minor() Chord {
 	return MinorTriad(n)
 }
 
-func ListTones(notes []Tone) (str string) {
+func (t Tone) Whole() Note {
+	return Note{t, 1}
+}
+
+func (t Tone) Half() Note {
+	return Note{t, 2}
+}
+
+func (t Tone) Quarter() Note {
+	return Note{t, 4}
+}
+
+func (t Tone) Eighth() Note {
+	return Note{t, 8}
+}
+
+func AsQuarters(tones ...Tone) (notes []Note) {
+	for _, tone := range tones {
+		notes = append(notes, tone.Quarter())
+	}
+	return
+}
+
+func AsWholes(tones ...Tone) (notes []Note) {
+	for _, tone := range tones {
+		notes = append(notes, tone.Whole())
+	}
+	return
+}
+
+func ListTones(tones []Tone) (str string) {
+	for _, val := range tones {
+		str += val.AsString() + " "
+	}
+	return
+}
+
+func ListNotes(notes []Note) (str string) {
 	for _, val := range notes {
 		str += val.AsString() + " "
 	}
@@ -85,3 +131,11 @@ var G PitchClass = PitchClass{"G", 19}
 var GS PitchClass = PitchClass{"G#", 20}
 
 var MIDI_MODS []PitchClass = []PitchClass{A, AS, B, C, CS, D, DS, E, F, FS, G, GS}
+
+var NoteValueStrings map[uint8]string = map[uint8]string{
+	1:  "W",
+	2:  "H",
+	4:  "Q",
+	8:  "E",
+	16: "S",
+}
