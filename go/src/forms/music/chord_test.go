@@ -104,6 +104,7 @@ var ArpeggiateTestCases []struct {
 	tones   []Tone
 }{
 	{C_MAJOR, []uint8{1, 2, 3, 1}, 4, []Tone{C.Tone(4), E.Tone(4), G.Tone(4), C.Tone(4)}},
+	{C_MAJOR, []uint8{1, 2, 3, 1}, 8, []Tone{C.Tone(4), E.Tone(4), G.Tone(4), C.Tone(4), C.Tone(4), E.Tone(4), G.Tone(4), C.Tone(4)}},
 }
 
 func TestArpeggiate(t *testing.T) {
