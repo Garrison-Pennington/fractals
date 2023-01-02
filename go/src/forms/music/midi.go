@@ -5,6 +5,19 @@ import (
 	smf "gitlab.com/gomidi/midi/v2/smf"
 )
 
+func AddNotes(tr smf.Track, clock smf.MetricTicks, channel uint8, velocity uint8, notes ...Note) smf.Track {
+	ons, offs := MidiMessages(notes, channel, velocity)
+	for _, on := range ons {
+		tr.Add(0, on)
+	}
+	delay := (clock.Ticks4th() * 4) / uint32(notes[0].Value)
+	for _, off := range offs {
+		tr.Add(delay, off)
+		delay = 0
+	}
+	return tr
+}
+
 func PlayNote(channel uint8, note uint8, velocity uint8) (midi.Message, midi.Message) {
 	return midi.NoteOn(channel, note, velocity), midi.NoteOff(channel, note)
 }

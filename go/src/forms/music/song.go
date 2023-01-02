@@ -52,8 +52,17 @@ func (s Song) Save(filename string) {
 func BasicSong() Song {
 	return Song{
 		Tempo: 140,
-		// Meter: TimeSignature{4, 4, smf.MetricTicks(960)},
+		Meter: TimeSignature{4, 4},
 		Clock: smf.MetricTicks(960),
 		SMF:   smf.New(),
 	}
+}
+
+func (s Song) PianoTrack() smf.Track {
+	var tr smf.Track
+	tr.Add(0, smf.MetaTempo(s.Tempo))
+	tr.Add(0, smf.MetaMeter(s.Meter.Beats, s.Meter.Value))
+	tr.Add(0, smf.MetaInstrument("Piano"))
+	tr.Add(0, midi.ProgramChange(0, gm.Instr_AcousticGrandPiano.Value()))
+	return tr
 }
