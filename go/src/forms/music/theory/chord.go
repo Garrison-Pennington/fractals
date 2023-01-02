@@ -102,3 +102,65 @@ func (c Chord) MidiMessages(channel uint8, velocity uint8) (ons []midi.Message, 
 	}
 	return
 }
+
+func (c Chord) Equal(other Chord, ignoreInversions bool) bool {
+	// TODO: Implement ignoreInversions
+	return c.Root == other.Root && SameTones(c.Tones, other.Tones) && c.Quality == other.Quality
+}
+
+func SameChords(s1 []Chord, s2 []Chord) bool {
+	for i, chord := range s1 {
+		if !chord.Equal(s2[i], false) {
+			return false
+		}
+	}
+	return true
+}
+
+func ListChords(chords []Chord) (str string) {
+	for _, val := range chords {
+		str += val.Name() + " "
+	}
+	return
+}
+
+// Major Triads
+var CM Chord = C.Tone(4).Major()
+var CSM Chord = CS.Tone(4).Major()
+var DM Chord = D.Tone(4).Major()
+var DSM Chord = DS.Tone(4).Major()
+var EM Chord = E.Tone(4).Major()
+var FM Chord = F.Tone(4).Major()
+var FSM Chord = FS.Tone(4).Major()
+var GM Chord = G.Tone(4).Major()
+var GSM Chord = GS.Tone(4).Major()
+var AM Chord = A.Tone(4).Major()
+var ASM Chord = AS.Tone(4).Major()
+var BM Chord = B.Tone(4).Major()
+
+var MAJORS []Chord = []Chord{CM, CSM, DM, DSM, EM, FM, FSM, GM, GSM, AM, ASM, BM}
+
+// First Inversion Major Triads
+// Second Inversion Major Triads
+// Minor Triads
+var Cm Chord = C.Tone(4).Minor()
+var CSm Chord = CS.Tone(4).Minor()
+var Dm Chord = D.Tone(4).Minor()
+var DSm Chord = DS.Tone(4).Minor()
+var Em Chord = E.Tone(4).Minor()
+var Fm Chord = F.Tone(4).Minor()
+var FSm Chord = FS.Tone(4).Minor()
+var Gm Chord = G.Tone(4).Minor()
+var GSm Chord = GS.Tone(4).Minor()
+var Am Chord = A.Tone(4).Minor()
+var ASm Chord = AS.Tone(4).Minor()
+var Bm Chord = B.Tone(4).Minor()
+
+var MINORS []Chord = []Chord{Cm, CSm, Dm, DSm, Em, Fm, FSm, Gm, GSm, Am, ASm, Bm}
+
+// Augmented Triads
+// Diminished Triads
+// Major 7ths
+// Minor 7ths
+// Augmented 7ths
+// Diminished 7ths

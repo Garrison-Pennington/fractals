@@ -15,6 +15,13 @@ func (n Note) AsString() string {
 	return n.Tone.AsString() + NoteValueStrings[n.Value]
 }
 
+func ListNotes(notes []Note) (str string) {
+	for _, val := range notes {
+		str += val.AsString() + " "
+	}
+	return
+}
+
 func MidiMessages(notes []Note, channel uint8, velocity uint8) (ons []midi.Message, offs []midi.Message) {
 	for _, note := range notes {
 		on, off := note.Tone.MidiMessages(channel, velocity)
@@ -114,11 +121,16 @@ func ListTones(tones []Tone) (str string) {
 	return
 }
 
-func ListNotes(notes []Note) (str string) {
-	for _, val := range notes {
-		str += val.AsString() + " "
+func SameTones(s1 []Tone, s2 []Tone) bool {
+	if len(s1) != len(s2) {
+		return false
 	}
-	return
+	for i := 0; i < len(s1); i++ {
+		if s1[i] != s2[i] {
+			return false
+		}
+	}
+	return true
 }
 
 type PitchClass struct {

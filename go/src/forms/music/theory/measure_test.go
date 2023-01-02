@@ -6,7 +6,7 @@ import "testing"
 var M_3_4 Measure = NewMeasure(SIG_3_4)
 
 // Tone Sequences
-var C_ARP_ASC []Tone = C_MAJOR.Arpeggiate([]uint8{1, 2, 3}, 3)
+var C_ARP_ASC []Tone = CM.Arpeggiate([]uint8{1, 2, 3}, 3)
 
 // Note Sequences
 var C_ARP_ASC_WHOLES []Note = AsWholes(C_ARP_ASC...)
