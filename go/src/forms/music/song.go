@@ -1,6 +1,8 @@
 package music
 
 import (
+	mt "fractals/forms/music/theory"
+
 	"gitlab.com/gomidi/midi/gm"
 	midi "gitlab.com/gomidi/midi/v2"
 	smf "gitlab.com/gomidi/midi/v2/smf"
@@ -13,7 +15,7 @@ type Instrument struct {
 
 type Song struct {
 	Tempo float64
-	Meter TimeSignature
+	Meter mt.TimeSignature
 	Clock smf.MetricTicks
 	SMF   *smf.SMF
 }
@@ -23,7 +25,7 @@ func (s Song) SetTempo(tempo float64) Song {
 	return s
 }
 
-func (s Song) SetMeter(meter TimeSignature) Song {
+func (s Song) SetMeter(meter mt.TimeSignature) Song {
 	s.Meter = meter
 	return s
 }
@@ -52,7 +54,7 @@ func (s Song) Save(filename string) {
 func BasicSong() Song {
 	return Song{
 		Tempo: 140,
-		Meter: TimeSignature{4, 4},
+		Meter: mt.TimeSignature{4, 4},
 		Clock: smf.MetricTicks(960),
 		SMF:   smf.New(),
 	}

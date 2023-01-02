@@ -1,12 +1,14 @@
 package music
 
 import (
+	mt "fractals/forms/music/theory"
+
 	midi "gitlab.com/gomidi/midi/v2"
 	smf "gitlab.com/gomidi/midi/v2/smf"
 )
 
-func AddNotes(tr smf.Track, clock smf.MetricTicks, channel uint8, velocity uint8, notes ...Note) smf.Track {
-	ons, offs := MidiMessages(notes, channel, velocity)
+func AddNotes(tr smf.Track, clock smf.MetricTicks, channel uint8, velocity uint8, notes ...mt.Note) smf.Track {
+	ons, offs := mt.MidiMessages(notes, channel, velocity)
 	for _, on := range ons {
 		tr.Add(0, on)
 	}
