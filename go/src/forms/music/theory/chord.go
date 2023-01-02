@@ -1,4 +1,4 @@
-package music
+package music_theory
 
 import midi "gitlab.com/gomidi/midi/v2"
 

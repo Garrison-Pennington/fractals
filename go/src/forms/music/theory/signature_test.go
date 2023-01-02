@@ -1,4 +1,4 @@
-package music
+package music_theory
 
 var SIG_4_4 TimeSignature = TimeSignature{4, 4}
 var SIG_3_4 TimeSignature = TimeSignature{3, 4}

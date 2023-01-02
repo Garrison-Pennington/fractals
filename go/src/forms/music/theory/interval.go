@@ -1,4 +1,4 @@
-package music
+package music_theory
 
 type Interval struct {
 	HalfSteps uint8

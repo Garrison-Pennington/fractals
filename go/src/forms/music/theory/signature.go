@@ -1,4 +1,4 @@
-package music
+package music_theory
 
 import smf "gitlab.com/gomidi/midi/v2/smf"
 

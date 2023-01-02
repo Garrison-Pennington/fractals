@@ -1,4 +1,4 @@
-package music
+package music_theory
 
 import (
 	"testing"
