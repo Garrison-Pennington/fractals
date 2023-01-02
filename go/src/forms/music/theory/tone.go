@@ -1,6 +1,10 @@
 package music
 
-import "strconv"
+import (
+	"strconv"
+
+	midi "gitlab.com/gomidi/midi/v2"
+)
 
 type Note struct {
 	Tone  Tone
@@ -9,6 +13,15 @@ type Note struct {
 
 func (n Note) AsString() string {
 	return n.Tone.AsString() + NoteValueStrings[n.Value]
+}
+
+func MidiMessages(notes []Note, channel uint8, velocity uint8) (ons []midi.Message, offs []midi.Message) {
+	for _, note := range notes {
+		on, off := note.Tone.MidiMessages(channel, velocity)
+		ons = append(ons, on)
+		offs = append(offs, off)
+	}
+	return
 }
 
 type Tone struct {
@@ -74,6 +87,10 @@ func (t Tone) Quarter() Note {
 
 func (t Tone) Eighth() Note {
 	return Note{t, 8}
+}
+
+func (t Tone) MidiMessages(channel uint8, velocity uint8) (midi.Message, midi.Message) {
+	return midi.NoteOn(channel, t.MidiCode(), velocity), midi.NoteOff(channel, t.MidiCode())
 }
 
 func AsQuarters(tones ...Tone) (notes []Note) {

@@ -1,5 +1,7 @@
 package music
 
+import midi "gitlab.com/gomidi/midi/v2"
+
 type Chord struct {
 	Root    PitchClass
 	Tones   []Tone
@@ -88,6 +90,15 @@ func (c Chord) Arpeggiate(pattern []uint8, count uint8) (result []Tone) {
 		if n == count {
 			break
 		}
+	}
+	return
+}
+
+func (c Chord) MidiMessages(channel uint8, velocity uint8) (ons []midi.Message, offs []midi.Message) {
+	for _, tone := range c.Tones {
+		on, off := tone.MidiMessages(channel, velocity)
+		ons = append(ons, on)
+		offs = append(offs, off)
 	}
 	return
 }
