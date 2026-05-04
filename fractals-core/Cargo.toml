@@ -1,0 +1,16 @@
+[package]
+name = "fractals-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Fractal computation engine and fractal-derived music sequences"
+
+[dependencies]
+num-complex = "0.4"
+
+[dev-dependencies]
+criterion = { version = "0.5", default-features = false, features = ["cargo_bench_support"] }
+
+[[bench]]
+name = "render"
+harness = false

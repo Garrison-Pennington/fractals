@@ -1,2 +1,19 @@
 /images
 fractals
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Rust build output
+/target/
+
+# Node dependencies and build output
+node_modules/
+dist/
+/demo/dist/
+/demo/public/wasm/
+/fractals-wasm/pkg/
+
+# Local agent/tooling settings
+/.claude/

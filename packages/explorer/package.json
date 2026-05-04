@@ -1,0 +1,44 @@
+{
+  "name": "@fractals/explorer",
+  "version": "0.1.0",
+  "description": "Interactive fractal explorer React component backed by Rust+WASM",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./wasm/fractals_wasm_bg.wasm": "./dist/wasm/fractals_wasm_bg.wasm",
+    "./wasm/fractals_wasm.js": "./dist/wasm/fractals_wasm.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/copy-wasm.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "fflate": "^0.8.2",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.5.4"
+  },
+  "license": "MIT",
+  "sideEffects": false
+}

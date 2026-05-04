@@ -1,0 +1,24 @@
+[package]
+name = "fractals-wasm"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "WebAssembly bridge for fractals-core"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+fractals-core = { path = "../fractals-core" }
+num-complex = "0.4"
+wasm-bindgen = "0.2"
+js-sys = "0.3"
+serde = { version = "1", features = ["derive"] }
+serde-wasm-bindgen = "0.6"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"
+
+[profile.release]
+opt-level = 3
+lto = true
